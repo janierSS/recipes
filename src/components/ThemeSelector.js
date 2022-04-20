@@ -13,7 +13,6 @@ const ThemeSelector = () => {
       changeMode("dark");
     }
   };
-  console.log(mode);
   return (
     <div className={styles["theme-selector"]}>
       <MdBrightnessMedium

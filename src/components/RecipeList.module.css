@@ -45,6 +45,14 @@
   margin: 20px auto 0;
 }
 
+.delete {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  filter: invert(60%);
+}
+
 .recipe-list .card.dark {
   background: #555;
 }
@@ -53,3 +61,4 @@
 .recipe-list .card.dark div {
   color: #e4e4e4;
 }
+

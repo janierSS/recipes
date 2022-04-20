@@ -33,7 +33,21 @@
   line-height: 1.5em;
 }
 
-.recipe.dark {
+.recipe button {
+  display: block;
+  width: 150px;
+  font-size: 1em;
+  padding: 8px 20px;
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  margin: 20px auto;
+}
+
+.dark {
   background: #555;
   color: #e4e4e4;
 }
+
+

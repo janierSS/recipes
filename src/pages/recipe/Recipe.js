@@ -1,14 +1,35 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { useParams } from "react-router-dom";
-import { useFetch } from "../../hooks/useFetch";
 import styles from "./Recipe.module.css";
 import { useTheme } from "../../hooks/useTheme";
+import { projectFirestore } from "../../firebase/config";
 
 const Recipe = () => {
+  const [recipe, setRecipe] = useState(null);
+  const [isPending, setIsPending] = useState(false);
+  const [error, setError] = useState(null);
+
   const { id } = useParams();
-  const url = "http://localhost:3000/recipes/" + id;
-  const { data: recipe, isPending, error } = useFetch(url);
   const {mode} = useTheme()
+
+  useEffect(() => {
+    setIsPending(true)
+    const unsub = projectFirestore.collection("recipes").doc(id).onSnapshot((doc) => {
+      if (doc.exists){
+        setIsPending(false)
+        setRecipe(doc.data())
+      }else{
+        setError("Could not access to the recipe")
+        setIsPending(false)
+      }
+    })
+
+    return () => unsub()
+  }, [id])
+
+  const updateHandler = () => {
+    projectFirestore.collection("recipes").doc(id).update({title: "ohhh yes"})
+  }
 
   return (
     <div className={`${styles.recipe} ${styles[mode]}`}>
@@ -22,6 +43,7 @@ const Recipe = () => {
             {recipe.ingredients.map((ing) => (<li key={ing}>{ing}</li>))}
           </ul>
           <p className={styles.method}>{recipe.method}</p>
+          <button className={`${styles.button} ${styles[mode]}`} onClick={updateHandler}>Update me</button>
         </div>
       )}
     </div>
